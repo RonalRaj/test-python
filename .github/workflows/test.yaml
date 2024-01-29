@@ -24,10 +24,10 @@ jobs:
       id: set-deploy-env
       run: |
         if [ -n "${{ github.event.inputs.environment }}" ]; then
-          echo "DEPLOY_ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+          echo "BRANCH=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
         fi
         if [ -z "${{ github.event.inputs.environment }}" ]; then
-          echo "DEPLOY_ENV=$(echo $GITHUB_REF | sed 's|refs/heads/||')" >> $GITHUB_ENV
+          echo "BRANCH=$(echo $GITHUB_REF | sed 's|refs/heads/||')" >> $GITHUB_ENV
         fi
 
     - uses: actions/checkout@v4

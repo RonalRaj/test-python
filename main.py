@@ -56,9 +56,8 @@ import yaml
 import os
 
 def load_config(branch: Optional[str] = None):
-    if branch is None:
-        branch = os.environ.get('BRANCH', 'main')
 
+    branch = os.environ.get('BRANCH', 'main')
     if branch == "main":
         filename = 'config_production.yaml'
     elif branch == "dev":
