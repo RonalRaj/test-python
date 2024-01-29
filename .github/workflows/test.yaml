@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      
+
   workflow_dispatch:
     inputs:
       environment:
@@ -20,8 +20,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set branch as environment variable
-      run: echo "BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+    - name: Set DEPLOY_ENV
+      id: set-deploy-env
+      run: |
+        if [ -n "${{ github.event.inputs.environment }}" ]; then
+          echo "DEPLOY_ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+        fi
+        if [ -z "${{ github.event.inputs.environment }}" ]; then
+          echo "DEPLOY_ENV=$(echo $GITHUB_REF | sed 's|refs/heads/||')" >> $GITHUB_ENV
+        fi
 
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
