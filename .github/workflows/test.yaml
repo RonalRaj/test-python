@@ -1,10 +1,16 @@
-name: Run main.py #
+name: Your Workflow Name
 
 on:
   push:
     branches:
       - main
-      - dev
+      
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Which environment to deploy to?'
+        required: true
+        default: 'stage'
 
 jobs:
   run-main:
