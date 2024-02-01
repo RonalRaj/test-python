@@ -24,12 +24,11 @@ jobs:
       id: set-deploy-env
       run: |
         if [ -n "${{ github.event.inputs.environment }}" ]; then
-          echo "BRANCH=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+          echo "DEPLOY_ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
         fi
         if [ -z "${{ github.event.inputs.environment }}" ]; then
-          echo "BRANCH=stage" >> $GITHUB_ENV
+          echo "DEPLOY_ENV=stage" >> $GITHUB_ENV
         fi
-
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
       with:
