@@ -54,14 +54,23 @@
 from typing import Optional
 import yaml
 import os
+from dotenv import load_dotenv
 
-def load_config(branch: Optional[str] = None):
 
-    branch = os.environ.get('BRANCH', 'main')
-    if branch == "main":
-        filename = 'config_production.yaml'
-    elif branch == "dev":
+load_dotenv()  # Load values from .env file
+
+def load_config():
+    branch = os.environ.get('DEPLOY_ENV', 'stage')
+    if branch == "stage":
         filename = 'config_staging.yaml'
+        os.environ['env_resource'] = 'stage'
+        os.environ['lb_path'] = 'stage'
+
+        
+    elif branch == "stage-e1":
+        filename = 'config_production.yaml'
+        os.environ['env_resource'] = 'test'
+        os.environ['lb_path'] = 'e1'
     else:
         raise ValueError(f"Unsupported branch: {branch}")
 
@@ -73,5 +82,12 @@ def load_config(branch: Optional[str] = None):
 # Example usage:
 # If BRANCH environment variable is not set, it uses 'main' as the default branch
 config = load_config()
-lb_dns = config['lb_dns']
-print(lb_dns)
+lb_dns = config.get('lb')
+env_resource=os.getenv('env_resource')
+lb_path= os.getenv('lb_path')
+http_route_path="demo"
+uri=f"http://{lb_dns}/{lb_path}/api/v1/{http_route_path}",
+
+print(uri)
+
+
