@@ -27,7 +27,7 @@ jobs:
           echo "BRANCH=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
         fi
         if [ -z "${{ github.event.inputs.environment }}" ]; then
-          echo "BRANCH=$(echo $GITHUB_REF | sed 's|refs/heads/||')" >> $GITHUB_ENV
+          echo "BRANCH=stage" >> $GITHUB_ENV
         fi
 
     - uses: actions/checkout@v4
